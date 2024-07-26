@@ -31,7 +31,7 @@ jobs:
       #max-parallel: 3
       matrix:
         TARGET: [IPQ60XX-WIFI-YES, IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO]
-        SOURCE: [King-Of-Knights/openwrt-6.x]
+        SOURCE: [VIKINGYFY/immortalwrt]
 
     #调用公用编译核心WRT-CORE.yml
     uses: ./.github/workflows/WRT-CORE.yml
