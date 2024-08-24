@@ -10,12 +10,12 @@ on:
         default: 'MEDIATEK'
         required: true
         type: choice
-        options: [MEDIATEK, ROCKCHIP, X86, IPQ60XX-WIFI-YES, IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO]
+        options: [IPQ60XX-WIFI-YES]
       SOURCE:
         default: 'VIKINGYFY/immortalwrt'
         required: true
         type: choice
-        options: [VIKINGYFY/immortalwrt, immortalwrt/immortalwrt, King-Of-Knights/openwrt-6.x, LiBwrt-op/openwrt-6.x, coolsnowwolf/lede]
+        options: [VIKINGYFY/immortalwrt]
       BRANCH:
         default: 'main'
         required: true
@@ -42,13 +42,13 @@ jobs:
       #编译平台
       WRT_TARGET: ${{inputs.TARGET}}
       #默认主题
-      WRT_THEME: argon
+      WRT_THEME: bootstrap
       #默认主机名
       WRT_NAME: OWRT
       #默认WIFI名
       WRT_WIFI: OWRT
       #默认地址
-      WRT_IP: 192.168.10.1
+      WRT_IP: 192.168.1.1
       #默认密码，仅作提示，修改无用
       WRT_PW: 无
       #源码链接
