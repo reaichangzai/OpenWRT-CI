@@ -48,9 +48,9 @@ if [[ $WRT_TARGET == *"IPQ"* ]]; then
 	echo "CONFIG_FEED_nss_packages=n" >> ./.config
 	echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
 	
-	如果 [[ $WRT_TARGET == *“60XX”* ]]; 然后
+	if [[ $WRT_TARGET == *"60XX"* ]]; then
 		#设置NSS版本
-		echo “CONFIG_NSS_FIRMWARE_VERSION_11_4=n” >> ./.config
-		echo “CONFIG_NSS_FIRMWARE_VERSION_12_2=y” >> ./.config
+		echo "CONFIG_NSS_FIRMWARE_VERSION_11_4=n" >> ./.config
+		echo "CONFIG_NSS_FIRMWARE_VERSION_12_2=y" >> ./.config
 	fi
 fi
