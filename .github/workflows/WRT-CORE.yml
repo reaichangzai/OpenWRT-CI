@@ -179,12 +179,25 @@ jobs:
 
           make download -j$(nproc)
 
+# ==================== 新增：清理 Rust 缓存 ====================
+      - name: Clean Rust Broken Cache
+        run: |
+          cd ./wrt/
+          echo "=== Cleaning broken Rust cache ==="
+          rm -rf build_dir/target-*/host/rustc-* 2>/dev/null || true
+          rm -rf build_dir/hostpkg/rust* 2>/dev/null || true
+          rm -rf dl/rust* 2>/dev/null || true
+          rm -rf staging_dir/hostpkg/rust* 2>/dev/null || true
+          echo "Rust cache cleaned successfully."
+
       - name: Compile Firmware
         if: env.WRT_TEST != 'true'
         run: |
           cd ./wrt/
-
-          make -j$(nproc) || make -j$(nproc) V=s
+          echo "Starting compilation..."
+          make -j$(nproc) || make -j1 V=s
+        timeout-minutes: 240
+# ============================================================
 
       - name: Machine Information
         run: |
