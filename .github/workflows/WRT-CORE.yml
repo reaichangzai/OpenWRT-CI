@@ -180,6 +180,16 @@ jobs:
           $GITHUB_WORKSPACE/Scripts/Settings.sh
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
+# ==================== 新增：清理缓存 ====================
+      - name: Clean Broken Cache Before Compile
+        run: |
+          cd ./wrt/
+          echo "=== Cleaning caches ==="
+          rm -rf build_dir/target-*/host/python* build_dir/hostpkg/python* 2>/dev/null || true
+          rm -rf build_dir/target-*/host/rustc-* dl/rust* 2>/dev/null || true
+          rm -rf staging_dir/hostpkg/stamp/.python3* 2>/dev/null || true
+          echo "Cleanup done."
+# ============================================================
 
       - name: Download Packages
         if: env.WRT_TEST != 'true'
@@ -193,9 +203,6 @@ jobs:
         run: |
           cd ./wrt/
           echo "=== Cleaning broken Rust cache ==="
-          rm -rf build_dir/target-*/host/python* build_dir/hostpkg/python* 2>/dev/null || true
-          rm -rf build_dir/target-*/host/rustc-* dl/rust* 2>/dev/null || true
-          rm -rf staging_dir/hostpkg/stamp/.python3* 2>/dev/null || true
           rm -rf build_dir/target-*/host/rustc-* 2>/dev/null || true
           rm -rf build_dir/hostpkg/rust* 2>/dev/null || true
           rm -rf dl/rust* 2>/dev/null || true
