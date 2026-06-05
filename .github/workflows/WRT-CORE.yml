@@ -59,7 +59,7 @@ env:
 jobs:
   core:
     name: ${{inputs.WRT_SOURCE}}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Projects
         uses: actions/checkout@main
@@ -74,20 +74,11 @@ jobs:
           sudo -E apt -yqq autoremove --purge
           sudo -E apt -yqq autoclean
           sudo -E apt -yqq clean
-
-          # 重点加强依赖安装（解决 python3 + openssl 问题）
-          sudo -E apt -yqq install \
-            dos2unix libfuse-dev \
-            build-essential ccache git libncurses5-dev libssl-dev \
-            python3 python3-pip python3-setuptools python3-dev \
-            libssl-dev libelf-dev libxml2-dev libxslt1-dev \
-            zlib1g-dev liblzma-dev libbz2-dev libsqlite3-dev \
-            libgmp3-dev libmpc-dev libmpfr-dev \
-            pkg-config libglib2.0-dev
-            
+          sudo -E apt -yqq install \dos2unix libfuse-dev \
           sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"   
+          
           sudo mkdir -p /mnt/build_wrt
           sudo chown $USER:$USER /mnt/build_wrt
           sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
@@ -180,16 +171,6 @@ jobs:
           $GITHUB_WORKSPACE/Scripts/Settings.sh
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
-# ==================== 新增：清理缓存 ====================
-      - name: Clean Broken Cache Before Compile
-        run: |
-          cd ./wrt/
-          echo "=== Cleaning caches ==="
-          rm -rf build_dir/target-*/host/python* build_dir/hostpkg/python* 2>/dev/null || true
-          rm -rf build_dir/target-*/host/rustc-* dl/rust* 2>/dev/null || true
-          rm -rf staging_dir/hostpkg/stamp/.python3* 2>/dev/null || true
-          echo "Cleanup done."
-# ============================================================
 
       - name: Download Packages
         if: env.WRT_TEST != 'true'
@@ -198,17 +179,6 @@ jobs:
 
           make download -j$(nproc)
 
-# ==================== 新增：清理 Rust 缓存 ====================
-      - name: Clean Rust Broken Cache
-        run: |
-          cd ./wrt/
-          echo "=== Cleaning broken Rust cache ==="
-          rm -rf build_dir/target-*/host/rustc-* 2>/dev/null || true
-          rm -rf build_dir/hostpkg/rust* 2>/dev/null || true
-          rm -rf dl/rust* 2>/dev/null || true
-          rm -rf staging_dir/hostpkg/rust* 2>/dev/null || true
-          echo "Rust cache cleaned successfully."
-
       - name: Compile Firmware
         if: env.WRT_TEST != 'true'
         run: |
@@ -216,7 +186,6 @@ jobs:
           echo "Starting compilation..."
           make -j$(nproc) || make -j1 V=s
         timeout-minutes: 240
-# ============================================================
 
       - name: Machine Information
         run: |
