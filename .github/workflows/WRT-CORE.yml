@@ -185,7 +185,6 @@ jobs:
           cd ./wrt/
           echo "Starting compilation..."
           make -j$(nproc) || make -j1 V=s
-        timeout-minutes: 240
 
       - name: Machine Information
         run: |
