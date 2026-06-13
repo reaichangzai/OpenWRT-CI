@@ -1,5 +1,5 @@
 #科学插件调整
-CONFIG_PACKAGE_luci-app-ssr-plus=n
+CONFIG_PACKAGE_luci-app-ssr-plus=y
 #增加插件
 
 #删除插件
