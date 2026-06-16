@@ -59,15 +59,15 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "CONFIG_NSS_FIRMWARE_VERSION_12_5=y" >> ./.config
 	fi
 	#无WIFI配置调整Q6大小
-	#if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
-		#find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
-		#echo "qualcommax set up nowifi successfully!"
-	#fi
 	if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
-        find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq6018\.dtsi/ipq6018-512m.dtsi/g' {} +
+		find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\).dtsi/ipq\1-nowifi.dtsi/g' {} +
+		echo "qualcommax set up nowifi successfully!"
+	fi
+	#if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
+        #find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq6018\.dtsi/ipq6018-512m.dtsi/g' {} +
 
-        sed -i 's/reg = <0x0 0x4ab00000 0x0 0x[0-9a-f]\+>/reg = <0x0 0x4ab00000 0x0 0x01000000>/' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6018-512m.dtsi
+        #sed -i 's/reg = <0x0 0x4ab00000 0x0 0x[0-9a-f]\+>/reg = <0x0 0x4ab00000 0x0 0x01000000>/' target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6018-512m.dtsi
 
-        echo "qualcommax set up 512m successfully!"
-    fi
+        #echo "qualcommax set up 512m successfully!"
+    #fi
 fi
