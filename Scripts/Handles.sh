@@ -72,13 +72,7 @@ if [ -f "$RUST_FILE" ]; then
 	echo " "
 
 	sed -i 's/ci-llvm=true/ci-llvm=false/g' $RUST_FILE
-    # 禁用vendor校验和检查
-	sed -i 's/vendor-check-must-pass=true/vendor-check-must-pass=false/g' $RUST_FILE
-	
-	# 启用离线模式避免网络问题
-	sed -i '/config\.toml/a\\t\techo "offline = true" >> config.toml' $RUST_FILE
-	
-	cd $PKG_PATH && echo "rust has been fixed!"
+    cd $PKG_PATH && echo "rust has been fixed!"
 fi
 
 #修复DiskMan编译失败
