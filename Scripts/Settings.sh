@@ -36,6 +36,12 @@ echo "CONFIG_PACKAGE_luci=y" >> ./.config
 echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
+# 跳过 haproxy 编译
+sed -i 's/CONFIG_PACKAGE_haproxy=y/# CONFIG_PACKAGE_haproxy is not set/g' .config
+sed -i 's/CONFIG_PACKAGE_haproxy=m/# CONFIG_PACKAGE_haproxy is not set/g' .config
+sed -i 's/CONFIG_PACKAGE_haproxy-nossl=y/# CONFIG_PACKAGE_haproxy-nossl is not set/g' .config
+sed -i 's/CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y/# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy is not set/g' .config
+sed -i 's/CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y/# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy is not set/g' .config
 
 #手动调整的插件
 if [ -n "$WRT_PACKAGE" ]; then
