@@ -114,3 +114,19 @@ UPDATE_VERSION() {
 #UPDATE_VERSION "软件包名" "测试版，true，可选，默认为否"
 UPDATE_VERSION "sing-box"
 UPDATE_VERSION "tailscale"
+
+# 彻底删除 haproxy，跳过编译失败
+echo "Removing haproxy to skip broken build..."
+rm -rf feeds/packages/net/haproxy
+rm -rf package/feeds/packages/haproxy
+rm -rf feeds/packages/net/haproxy*
+find feeds -type d -name "*haproxy*" -exec rm -rf {} + 2>/dev/null || true
+find package -type d -name "*haproxy*" -exec rm -rf {} + 2>/dev/null || true
+
+# 强制禁用配置
+if [ -f .config ]; then
+	sed -i '/CONFIG_PACKAGE_haproxy/d' .config
+	sed -i '/CONFIG_PACKAGE_haproxy-nossl/d' .config
+	echo "# CONFIG_PACKAGE_haproxy is not set" >> .config
+	echo "# CONFIG_PACKAGE_haproxy-nossl is not set" >> .config
+fi
