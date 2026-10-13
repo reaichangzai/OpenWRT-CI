@@ -171,6 +171,19 @@ jobs:
           $GITHUB_WORKSPACE/Scripts/Settings.sh
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
+          # ========== 这里强制删除 haproxy（关键！） ==========
+          echo "Force removing haproxy after defconfig..."
+          rm -rf feeds/packages/net/haproxy
+          rm -rf package/feeds/packages/haproxy
+          rm -rf feeds/packages/net/haproxy*
+          find feeds package -type d -name "*haproxy*" -exec rm -rf {} + 2>/dev/null || true
+          
+          # 再次清理 .config
+          sed -i '/haproxy/d' .config
+          echo "# CONFIG_PACKAGE_haproxy is not set" >> .config
+          echo "# CONFIG_PACKAGE_haproxy-nossl is not set" >> .config
+
+          make clean -j$(nproc)
 
       - name: Download Packages
         if: env.WRT_TEST != 'true'
