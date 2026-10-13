@@ -72,10 +72,3 @@ if [ -f "$RUST_FILE" ]; then
 
 	cd $PKG_PATH && echo "rust has been fixed!"
 fi
-
-# passwall跳过 haproxy 编译
-sed -i 's/CONFIG_PACKAGE_haproxy=y/# CONFIG_PACKAGE_haproxy is not set/g' .config
-sed -i 's/CONFIG_PACKAGE_haproxy=m/# CONFIG_PACKAGE_haproxy is not set/g' .config
-sed -i 's/CONFIG_PACKAGE_haproxy-nossl=y/# CONFIG_PACKAGE_haproxy-nossl is not set/g' .config
-sed -i 's/CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y/# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy is not set/g' .config
-sed -i 's/CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y/# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy is not set/g' .config
