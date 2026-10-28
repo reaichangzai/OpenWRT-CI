@@ -68,12 +68,12 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo -E apt -yqq purge firefox
-          sudo -E apt -yqq update
-          sudo -E apt -yqq full-upgrade
-          sudo -E apt -yqq autoremove --purge
-          sudo -E apt -yqq autoclean
-          sudo -E apt -yqq clean
+          sudo apt-get -yqq purge firefox
+          sudo apt-get -yqq update
+          sudo apt-get -yqq full-upgrade
+          sudo apt-get -yqq autoremove --purge
+          sudo apt-get -yqq autoclean
+          sudo apt-get -yqq clean
           
           sudo apt-get install -y --no-install-recommends \
             coreutils \
@@ -91,8 +91,8 @@ jobs:
           ls -l /usr/bin/install
           /usr/bin/install --version
             
-          sudo -E timedatectl set-timezone "Asia/Shanghai"   
-          
+          sudo timedatectl set-timezone "Asia/Shanghai"
+
           sudo mkdir -p /mnt/build_wrt
           sudo chown $USER:$USER /mnt/build_wrt
           sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
