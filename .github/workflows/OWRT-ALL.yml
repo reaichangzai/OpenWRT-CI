@@ -41,7 +41,7 @@ jobs:
         COMMIT: [d33b139e649f02b7e169c3b5a9ebd069326a54db]
 
     #调用公用编译核心WRT-CORE.yml
-    uses: ./.github/workflows/WRT-CORE.yml
+    uses: ./.github/workflows/WRT-CORE-TEST.yml
     with:
       #编译配置
       WRT_CONFIG: ${{matrix.CONFIG}}
