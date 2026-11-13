@@ -197,6 +197,13 @@ jobs:
           $GITHUB_WORKSPACE/Scripts/Handles.sh
           $GITHUB_WORKSPACE/.github/scripts/prepare-i2c-tools.sh
 
+      - name: Remove Broken Optional Packages
+        run: |
+          cd ./wrt/
+          if [ -f "$GITHUB_WORKSPACE/Scripts/Disable-Broken-Feed-Packages.sh" ]; then
+            bash "$GITHUB_WORKSPACE/Scripts/Disable-Broken-Feed-Packages.sh"
+          fi
+
       - name: Custom Settings
         run: |
           cd ./wrt/
