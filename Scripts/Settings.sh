@@ -2,6 +2,16 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 VIKINGYFY
 
+# 强制关闭已知会触发递归 Kconfig 依赖的可选包，避免第三方 feed 把它们重新塞回 .config
+for pkg in \
+  dnsdist dnsdist-full \
+  fwknop fwknopd libfko \
+  luci-app-fwknopd luci-app-upnp luci-app-weechat \
+  luci-app-homeproxy miniupnpd \
+  mpd-full squeezelite-custom snort3 openappid knot-resolver; do
+  echo "CONFIG_PACKAGE_${pkg}=n" >> ./.config
+done
+
 #移除luci-app-attendedsysupgrade
 find ./feeds/luci/collections/ -type f -name "Makefile" -exec sed -i "/attendedsysupgrade/d" {} +
 #修改默认主题
